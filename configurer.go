@@ -14,10 +14,11 @@ type Config struct {
 type Configurer interface {
 	Configure(Config) error
 	Stop()
+	GetConnection() *amqp.Connection
 }
 
 type RConfigurer struct {
-	Connection *amqp.Connection
+	connection *amqp.Connection
 }
 
 func (bci *RConfigurer) Configure(config Config) error {
@@ -25,10 +26,12 @@ func (bci *RConfigurer) Configure(config Config) error {
 	if err != nil {
 		return err
 	}
-	bci.Connection = conn
+	bci.connection = conn
 	return nil
 }
-
+func (bci RConfigurer) GetConnection() *amqp.Connection {
+	return bci.connection
+}
 func (bci *RConfigurer) Stop() {
-	bci.Connection.Close()
+	bci.connection.Close()
 }
