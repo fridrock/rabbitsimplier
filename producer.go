@@ -8,8 +8,8 @@ import (
 
 type Producer interface {
 	CreateChannel(*amqp.Connection) error
-	CreateExchange(exchangeName, exchangeType string) error
-	PublishMessage(ctx context.Context, exchangeName, routingKey, body string) error
+	CreateExchange(exchangeName, exchangeType string, exchangeConfig ...ExchangeConfig) error
+	PublishMessage(ctx context.Context, exchangeName, routingKey, body string, messageConfig ...MessageConfig) error
 	Stop()
 }
 

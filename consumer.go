@@ -4,9 +4,9 @@ import amqp "github.com/rabbitmq/amqp091-go"
 
 type Consumer interface {
 	CreateChannel(*amqp.Connection) error
-	CreateQueue(queueName ...string) (amqp.Queue, error)
-	SetBinding(q amqp.Queue, boundingKey, exchangeName string) error
-	RegisterHandler(amqp.Queue, Dispatcher)
+	CreateQueue(queueConfig ...QueueConfig) (amqp.Queue, error)
+	SetBinding(q amqp.Queue, boundingKey, exchangeName string, bindingConfig ...BindingConfig) error
+	RegisterDispatcher(amqp.Queue, Dispatcher, ...ConsumerConfig)
 	Stop()
 }
 
